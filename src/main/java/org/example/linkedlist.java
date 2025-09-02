@@ -3,7 +3,7 @@ package org.example;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-public class Linkedlist {
+public class linkedlist {
     public static void main(String[] args) {
         LinkedList<Integer> linkedList = new LinkedList<>();
         linkedList.add(1);
