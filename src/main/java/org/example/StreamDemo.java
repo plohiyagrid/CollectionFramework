@@ -1,8 +1,6 @@
 package org.example;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -152,10 +150,25 @@ public class StreamDemo {
         System.out.println("ParallelStream : " + numb.parallelStream().map(sum::getAndAdd).toList()); //provides wrong ans
         //sequential can be usd to make parallel stream sequential
 
+        //peek --> intermediate operation to perform action
+        Object[] arr = Stream.iterate(1, x->x+1).limit(10).peek(System.out::print).toArray();
+        //toArray
+        System.out.println();
+        //max/min
+        System.out.println("Max: = " + Stream.of(1,3,4,4,32,1).max((o1, o2) -> o1 - o2).get());
+        System.out.println("Min: = " + Stream.of(1,3,4,4,32,1).min(Comparator.naturalOrder()).get());
+
+        //flatmap -> transform and flatten
+        List<List<String>> fruits = Arrays.asList(
+                Arrays.asList("Kivi" , "Orange" , "Banana"),
+                Arrays.asList("Apple" , "Guava" , "Grapes")
+        );
+        System.out.println(fruits);
+
+        System.out.printf(String.valueOf(fruits.stream().flatMap(Collection::stream).map(String::toUpperCase).toList()));
 
 
     }
-
     private static long factorial(long n){
         long res = 1;
         for(int i = 2 ; i <= n ; i++){

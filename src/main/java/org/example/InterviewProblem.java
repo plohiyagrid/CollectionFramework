@@ -55,12 +55,12 @@ public class InterviewProblem {
                 .distinct()
                 .sorted(Comparator.comparing(Person::getName).reversed())
                 .filter(p ->
-                        p.getAddresses().stream().anyMatch(a -> a.getCity().toLowerCase().equals("new york")) ||
+                        p.getAddresses().stream().anyMatch(a -> a.getCity().equalsIgnoreCase("new york")) ||
                                 p.getName().toLowerCase().contains("john")
                 )
                 .limit(3)
                 .map(p -> p.getName().toUpperCase())
-                .toArray(String[]::new);
+                .toList().toArray(String[]::new);
 
         System.out.println("Filtered Names:");
         Arrays.stream(result).forEach(System.out::println);
