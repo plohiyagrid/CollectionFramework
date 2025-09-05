@@ -167,7 +167,74 @@ public class StreamDemo {
 
         System.out.printf(String.valueOf(fruits.stream().flatMap(Collection::stream).map(String::toUpperCase).toList()));
 
+        //forEachOrdered
+        List<Integer> nums = Arrays.asList(1,2,4,3,5,8);
+        System.out.println("For each ordered in ParallelStream : ") ;
+        nums.parallelStream().forEachOrdered(System.out::println);
 
+        //Collectors --> Utility class
+
+        // 1. Collecting to a List
+        List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+        List<String> res = names.stream()
+                .filter(name -> name.startsWith("A"))
+                .collect(Collectors.toList());
+        System.out.println(res);
+
+        // 2. Collecting to a Set
+        List<Integer> number = Arrays.asList(1, 2, 2, 3, 4, 4, 5);
+        Set<Integer> set = number.stream().collect(Collectors.toSet());
+        System.out.println(set);
+
+        // 3. Collecting to a Specific Collection
+        ArrayDeque<String> collect = names.stream().collect(Collectors.toCollection(() -> new ArrayDeque<>()));
+
+        // 4. Joining Strings
+        // Concatenates stream elements into a single String
+        String concatenatedNames = names.stream().collect(Collectors.joining(""));
+        System.out.println(concatenatedNames);
+
+        // 5. Summarizing Data
+        // Generates statistical summary (count, sum, min, average, max)
+
+        IntSummaryStatistics stats = number.stream().collect(Collectors.summarizingInt(x -> x));
+        System.out.println("Count: " + stats.getCount());
+        System.out.println("Sum: " + stats.getSum());
+        System.out.println("Min: " + stats.getMin());
+        System.out.println("Average: " + stats.getAverage());
+        System.out.println("Max: " + stats.getMax());
+
+        //calculating Averages
+        Double avg =  numbers.stream().collect(Collectors.averagingInt(x->x));
+        System.out.println("Avg:" + avg);
+
+        //Counting Elements
+        System.out.println("Count: " + numbers.stream().collect(Collectors.counting()));
+
+        //Grouping Elements
+        List<String>words = Arrays.asList("Hello" , "World" , "Java" , "Streams");
+        System.out.println(words.stream().collect(Collectors.groupingBy(String::length)));
+        System.out.println(words.stream().collect(Collectors.groupingBy(String::length , Collectors.joining(", "))));
+        System.out.println(words.stream().collect(Collectors.groupingBy(String::length , Collectors.counting())));
+        TreeMap<Integer , Long>treemap =  words.stream().collect(Collectors.groupingBy(String::length , TreeMap::new , Collectors.counting()));
+        //Portioning Elements
+        System.out.println(treemap);
+        System.out.println(words.stream().collect(Collectors.partitioningBy(x -> x.length() < 5)));
+
+        //Mapping and collecting -> apply mapping before collection
+        System.out.println(words.stream().collect(Collectors.mapping(x -> x.toUpperCase() ,Collectors.toList())));
+        System.out.println(words.stream().map(String::toUpperCase).collect(Collectors.toList()));
+
+        //Primitive Stream
+
+        int []n = {1,3,55,3,2};
+        IntStream integerStream = Arrays.stream(n);
+
+        System.out.println(IntStream.range(1,10).boxed().collect(Collectors.toList()));
+        //boxed is to convert it to wrapper class
+
+        System.out.println(new Random().doubles(5).boxed().toList());
+        System.out.println(new Random().ints(5).boxed().toList());
     }
     private static long factorial(long n){
         long res = 1;
