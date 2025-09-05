@@ -24,6 +24,33 @@ public class Vectors {
         Vector<Integer> vectorConst = new Vector<>(Arrays.asList(1,3,45,2)); //collection
 
 
+        //Thread safety in vector with example
+        Vector<Integer> list = new Vector<>();
+        Thread t1 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) {
+                list.add(i);
+            }
+        });
+        Thread t2 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) {
+                list.add(i);
+            }
+        });
+
+        t1.start();
+        t2.start();
+
+        try {
+            t1.join();
+            t2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Size of list: " + list.size()); // Output: 2000
+
+
+
 
     }
 }
