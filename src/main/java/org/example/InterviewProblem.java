@@ -62,9 +62,28 @@ public class InterviewProblem {
                 .map(p -> p.getName().toUpperCase())
                 .toList().toArray(String[]::new);
 
+        String[] result2 = persons.stream()
+                .distinct()
+                .sorted(Comparator.comparing(Person::getName).reversed())
+                .filter(InterviewProblem::isInNewYorkOrNameContainsJohn)
+                .limit(3)
+                .map(p -> p.getName().toUpperCase())
+                .toList()
+                .toArray(String[]::new);
+
+
         System.out.println("Filtered Names:");
         Arrays.stream(result).forEach(System.out::println);
+
+        System.out.println("Filtered Names method 2:");
+        Arrays.stream(result2).forEach(System.out::println);
     }
+
+    private static boolean isInNewYorkOrNameContainsJohn(Person p) {
+        return p.getAddresses().stream().anyMatch(a -> a.getCity().equalsIgnoreCase("new york")) ||
+                p.getName().toLowerCase().contains("john");
+    }
+
 }
 
 class Person {
